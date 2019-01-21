@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { MapsProvider } from '../../providers/maps/maps'
+import { analyzeAndValidateNgModules } from '@angular/compiler';
+//import { Observable } from 'rxjs/Observable';
 /**
  * Generated class for the MapPage page.
  *
@@ -14,12 +16,27 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'map.html',
 })
 export class MapPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  mapData: any =0;
+  elements: any;
+  gotPubs: boolean = false;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private mp: MapsProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MapPage');
+  }
+
+  getPubs(){
+    this.mp.getData()
+    .subscribe(data => {
+      this.mapData = data;
+    });
+    console.log('gotPubs! (:');
+    this.gotPubs = true;
+  }
+
+  showMapData(){
+    console.log(this.mapData.elements);
   }
 
 }

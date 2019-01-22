@@ -39,6 +39,7 @@ export class MapPage {
 
   createPubs() {
     if (!this.gotPubs) {
+      this.mp.createURL();
       this.getMapData();
       this.gotPubs = true;
       console.log('createdPubs')
@@ -72,8 +73,14 @@ export class MapPage {
     }
   }
 
+  getLocation(){
+    this.mp.getPosition();
+    console.log(this.mp.currentLatitude + ' ' + this.mp.currentLongitude);
+  }
   
-
+  showLocation(){
+    console.log(this.mp.currentLatitude + ' ' + this.mp.currentLongitude);
+  }
   
 
 

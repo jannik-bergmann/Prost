@@ -9,7 +9,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Die heftigsten Maps</ion-title>
+    <ion-title>Kneipen in deiner Umgebung</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -20,10 +20,14 @@
     <h1>Noch keine Kneipen in deiner Umgebung gefunden!</h1>
   </div>
   <ng-template #kneipenAnzeigen>
+    Die Berechnung der Koordinaten ist noch falsch (:
     <ion-list *ngFor="let pub of pubs; let i = index">
       {{ i+1 }}. {{ pub.name }}
     </ion-list>
   </ng-template>
+  <div *ngIf=" this.mp.currentLatitude !=0 && this.mp.currentLongitude != 0">
+      Deine Koordinaten: {{ this.mp.currentLatitude }} Lat. {{ this.mp.currentLongitude }} Long.
+  </div>
   <button ion-button (click)='this.createPubs();'>Get Pubs</button>
-  <button ion-button (click)='this.createPubs2();'>C.out</button>
+  <button ion-button (click)='this.getLocation();'>Show Location</button>
 </ion-content>

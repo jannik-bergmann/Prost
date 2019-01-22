@@ -11,6 +11,7 @@ import { MapPage } from '../pages/map/map';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapsProvider } from '../providers/maps/maps';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { MapsProvider } from '../providers/maps/maps';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MapsProvider,
-    HttpClientModule
+    HttpClientModule,
+    Geolocation
   ]
 })
 export class AppModule {}

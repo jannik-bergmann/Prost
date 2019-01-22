@@ -1,14 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { MapsProvider } from '../../providers/maps/maps'
-import { analyzeAndValidateNgModules } from '@angular/compiler';
+import { MapsProvider } from '../../providers/maps/maps';
+import { Pub } from '../../app/models/pub';
+
 //import { Observable } from 'rxjs/Observable';
-/**
- * Generated class for the MapPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -16,9 +11,10 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
   templateUrl: 'map.html',
 })
 export class MapPage {
-  mapData: any =0;
-  elements: any;
+  pubs: Pub [] = [];
+  mapData: any = 0;
   gotPubs: boolean = false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private mp: MapsProvider) {
   }
 
@@ -26,17 +22,73 @@ export class MapPage {
     console.log('ionViewDidLoad MapPage');
   }
 
-  getPubs(){
+  getMapData(){
     this.mp.getData()
     .subscribe(data => {
       this.mapData = data;
-    });
-    console.log('gotPubs! (:');
-    this.gotPubs = true;
+    },
+    err => {
+         console.log(err);
+    },
+    () => {
+      this.extractPubs();
+    }
+    );
+    return true;
+  }
+
+  createPubs() {
+    if (!this.gotPubs) {
+      this.getMapData();
+      this.gotPubs = true;
+      console.log('createdPubs')
+    }
+    else console.log('Already created pubs-Array!')
+  }
+
+  createPubs2(){
+    this.extractPubs();
+    this.showPubs();
+  }
+
+  extractPubs(){
+    if(this.mapData.elements != undefined){
+      for(let i = 0; i< this.mapData.elements.length; i++){
+        let tmp = new Pub(this.mapData.elements[i].tags.name,i );
+        this.pubs.push(tmp);
+      }
+      console.log('extracted Pubs!');
+    }
+    else console.log('mapData.element == undefined!');
   }
 
   showMapData(){
     console.log(this.mapData.elements);
+  }
+
+  showPubs(){
+    for(let i = 0; i< this.pubs.length; i++){
+      console.log(this.pubs[i]);
+    }
+  }
+
+  
+
+  
+
+
+  getLocalStorage(){
+    if(localStorage.getItem("pubs")!=null){
+      this.pubs = JSON.parse(localStorage.getItem("pubs"));
+    }
+  }
+
+  setLocalStorage(){
+    localStorage.setItem("pubs", JSON.stringify(this.pubs));
+  }
+  
+  clearLocalStorage(){
+    localStorage.clear();
   }
 
 }

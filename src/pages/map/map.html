@@ -16,11 +16,14 @@
 
 
 <ion-content padding>
-  <div *ngIf=" gotPubs == true">
-    <li *ngFor="let element of mapData.elements">
-      {{ element.tags.name}}
-    </li>
+  <div *ngIf=" gotPubs == false; else kneipenAnzeigen;">
+    <h1>Noch keine Kneipen in deiner Umgebung gefunden!</h1>
   </div>
-  <button ion-button (click)='this.getPubs();'>CLICK</button>
-  <button ion-button (click)='this.showMapData();'>C.out</button>
+  <ng-template #kneipenAnzeigen>
+    <ion-list *ngFor="let pub of pubs; let i = index">
+      {{ i+1 }}. {{ pub.name }}
+    </ion-list>
+  </ng-template>
+  <button ion-button (click)='this.createPubs();'>Get Pubs</button>
+  <button ion-button (click)='this.createPubs2();'>C.out</button>
 </ion-content>

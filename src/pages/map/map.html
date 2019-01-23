@@ -20,7 +20,9 @@
     <h1>Noch keine Kneipen in deiner Umgebung gefunden!</h1>
   </div>
   <ng-template #kneipenAnzeigen>
-    Die Berechnung der Koordinaten ist noch falsch (:
+    <div *ngIf=" this.gotMapData == true;">
+      <h1>Kneipen werden geladen!</h1>
+    </div>
     <ion-list *ngFor="let pub of pubs; let i = index">
       {{ i+1 }}. {{ pub.name }}
     </ion-list>
@@ -29,5 +31,5 @@
       Deine Koordinaten: {{ this.mp.currentLatitude }} Lat. {{ this.mp.currentLongitude }} Long.
   </div>
   <button ion-button (click)='this.createPubs();'>Get Pubs</button>
-  <button ion-button (click)='this.getLocation();'>Show Location</button>
+  <button ion-button (click)='this.showLocation();'>Show Location</button>
 </ion-content>

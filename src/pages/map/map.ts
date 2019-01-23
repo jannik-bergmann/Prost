@@ -14,27 +14,43 @@ export class MapPage {
   pubs: Pub [] = [];
   mapData: any = 0;
   gotPubs: boolean = false;
+  gotMapData: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private mp: MapsProvider) {
   }
 
   ionViewDidLoad() {
+    this.mp.getPosition();
     console.log('ionViewDidLoad MapPage');
   }
 
-  getMapData(){
-    this.mp.getData()
-    .subscribe(data => {
-      this.mapData = data;
-    },
-    err => {
-         console.log(err);
-    },
-    () => {
-      this.extractPubs();
+  getMapData() {
+    if (this.mp.gotPosition && !this.gotMapData) {
+      this.gotMapData = true;
+      this.mp.getData()
+        .subscribe(data => {
+          this.mapData = data;
+        },
+          err => {
+            console.log(err);
+          },
+          () => {
+            this.extractPubs();
+          }
+        );
+      this.gotMapData = false;
+      return true;
     }
-    );
-    return true;
+    else if(!this.gotMapData){
+      return 0;
+    }
+    else{
+      if(confirm('Ihr Standort wird benötigt! Noch einmal versuchen ihren Standort aufzurufen?')){
+        console.log('Standort Aufrufen Platzhalter');
+      }
+      else console.log('StandortNicht Aufrufen Platzhalter');
+
+    }
   }
 
   createPubs() {
@@ -45,11 +61,6 @@ export class MapPage {
       console.log('createdPubs')
     }
     else console.log('Already created pubs-Array!')
-  }
-
-  createPubs2(){
-    this.extractPubs();
-    this.showPubs();
   }
 
   extractPubs(){
@@ -74,7 +85,7 @@ export class MapPage {
   }
 
   getLocation(){
-    this.mp.getPosition();
+    this.mp.createURL();
     console.log(this.mp.currentLatitude + ' ' + this.mp.currentLongitude);
   }
   

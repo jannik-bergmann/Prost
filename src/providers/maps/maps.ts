@@ -2,12 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
 
-/*
-  Generated class for the MapsProvider provider.
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class MapsProvider {
 
@@ -22,13 +17,18 @@ export class MapsProvider {
   }
 
   getData(){
-    console.log('url for getData: '+ this.url);
     return this.http.get(this.url); 
     // return this.http.get('https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(node["amenity"="pub"]('+this.GEO+');way["amenity"="pub"]('+this.GEO+');relation["amenity"="pub"]('+this.GEO+'););out;>;out skel qt;');
   }
 
   getPosition(){
-    this.geolocation.getCurrentPosition().then((resp) => {
+    var options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+
+    this.geolocation.getCurrentPosition(options).then((resp) => {
       this.currentLatitude = resp.coords.latitude;
       this.currentLongitude = resp.coords.longitude;
       console.log('this.longitude : ' + this.currentLongitude);
@@ -36,8 +36,17 @@ export class MapsProvider {
 
      }).catch((error) => {
        console.log('Error getting location', error);
-     })
-     ;
+     });
+     return true;
+  }
+
+  getLocation(){
+    let options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+    return this.geolocation.getCurrentPosition(options);
   }
 
   createURL(){
@@ -46,8 +55,6 @@ export class MapsProvider {
     geo = (this.currentLatitude - this.radius) +','+(this.currentLongitude - this.radius)+','
           +(this.currentLatitude + this.radius) +',' +(this.currentLongitude + this.radius);
     this.url = 'https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(node["amenity"="pub"]('+geo+');way["amenity"="pub"]('+geo+');relation["amenity"="pub"]('+geo+'););out;>;out skel qt;';
-    this.url = 'https://www.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(node["amenity"="pub"]('+geo+');way["amenity"="pub"]('+geo+');relation["amenity"="pub"]('+geo+'););out;>;out skel qt;'
-    //https://gis.stackexchange.com/questions/80809/calculating-bounding-box-coordinates-based-on-center-and-radius
   }
 
 

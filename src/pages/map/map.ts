@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MapsProvider } from '../../providers/maps/maps';
 import { Pub } from '../../app/models/pub';
-
 //import { Observable } from 'rxjs/Observable';
 
 @IonicPage()
@@ -11,22 +10,23 @@ import { Pub } from '../../app/models/pub';
   templateUrl: 'map.html',
 })
 export class MapPage {
-  pubs: Pub [] = [];
+  map: any;
+  pubs: Pub[] = [];
   mapData: any = 0;
   gotPubs: boolean = false;
   gotMapData: boolean = false;
+  showCoor: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private mp: MapsProvider) {
   }
 
   ionViewDidLoad() {
     this.mp.getPosition();
-    console.log('ionViewDidLoad MapPage');
-  }
-
-  getMapData() {
-    if (this.mp.gotPosition && !this.gotMapData) {
-      this.gotMapData = true;
+    this.mp.getLocation().then((resp) => {
+      this.mp.currentLatitude = resp.coords.latitude;
+      this.mp.currentLongitude = resp.coords.longitude;
+      this.mp.gotPosition = true;
+      this.mp.createURL();
       this.mp.getData()
         .subscribe(data => {
           this.mapData = data;
@@ -38,74 +38,99 @@ export class MapPage {
             this.extractPubs();
           }
         );
-      this.gotMapData = false;
-      return true;
-    }
-    else if(!this.gotMapData){
-      return 0;
-    }
-    else{
-      if(confirm('Ihr Standort wird benötigt! Noch einmal versuchen ihren Standort aufzurufen?')){
-        console.log('Standort Aufrufen Platzhalter');
-      }
-      else console.log('StandortNicht Aufrufen Platzhalter');
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
+  }
 
+  getMapData() {
+    if (this.mp.gotPosition && !this.gotMapData) {
+      this.mp.getData()
+        .subscribe(data => {
+          this.mapData = data;
+        },
+          err => {
+            console.log(err);
+          },
+          () => {
+            this.extractPubs();
+          }
+        );
+      return true;
     }
   }
 
   createPubs() {
-    if (!this.gotPubs) {
+    if (!this.gotPubs && this.mp.gotPosition) {
       this.mp.createURL();
       this.getMapData();
       this.gotPubs = true;
       console.log('createdPubs')
     }
-    else console.log('Already created pubs-Array!')
+    else if (this.gotPubs && this.mp.gotPosition) {
+      alert('Kneipen wurden schon gefunden!')
+    }
+    else {
+      if (confirm('Ihr Standort wird benötigt! Noch einmal versuchen ihren Standort aufzurufen?')) {
+        this.mp.getPosition();
+      }
+      else { };
+
+    }
   }
 
-  extractPubs(){
-    if(this.mapData.elements != undefined){
-      for(let i = 0; i< this.mapData.elements.length; i++){
-        let tmp = new Pub(this.mapData.elements[i].tags.name,i );
-        this.pubs.push(tmp);
+  extractPubs() {
+    if (this.pubs.length != 0) this.pubs = [];
+    if (this.mapData.elements != undefined) {
+      for (let i = 0; i < this.mapData.elements.length; i++) {
+
+        if (typeof(this.mapData.elements[i].tags) !== 'undefined' && typeof(this.mapData.elements[i].tags.name) !== 'undefined') {
+          let tmp = new Pub(this.mapData.elements[i].tags.name, i);
+          this.pubs.push(tmp);
+        }
+        
       }
+      this.gotPubs = true;
       console.log('extracted Pubs!');
     }
     else console.log('mapData.element == undefined!');
   }
 
-  showMapData(){
+
+
+  showMapData() {
     console.log(this.mapData.elements);
   }
 
-  showPubs(){
-    for(let i = 0; i< this.pubs.length; i++){
+  showPubs() {
+    for (let i = 0; i < this.pubs.length; i++) {
       console.log(this.pubs[i]);
     }
   }
 
-  getLocation(){
+  getLocation() {
     this.mp.createURL();
     console.log(this.mp.currentLatitude + ' ' + this.mp.currentLongitude);
   }
-  
-  showLocation(){
+
+  showLocation() {
     console.log(this.mp.currentLatitude + ' ' + this.mp.currentLongitude);
+    this.showCoor = true;
   }
-  
 
 
-  getLocalStorage(){
-    if(localStorage.getItem("pubs")!=null){
+
+  getLocalStorage() {
+    if (localStorage.getItem("pubs") != null) {
       this.pubs = JSON.parse(localStorage.getItem("pubs"));
     }
   }
 
-  setLocalStorage(){
+  setLocalStorage() {
     localStorage.setItem("pubs", JSON.stringify(this.pubs));
   }
-  
-  clearLocalStorage(){
+
+  clearLocalStorage() {
     localStorage.clear();
   }
 

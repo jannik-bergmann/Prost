@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar >
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -20,6 +20,9 @@
     <h1>Noch keine Kneipen in deiner Umgebung gefunden!</h1>
   </div>
   <ng-template #kneipenAnzeigen>
+    <h1>
+      Kneipen in deiner Umgebung:
+    </h1>
     <div *ngIf=" this.gotMapData == true;">
       <h1>Kneipen werden geladen!</h1>
     </div>
@@ -27,9 +30,16 @@
       {{ i+1 }}. {{ pub.name }}
     </ion-list>
   </ng-template>
-  <div *ngIf=" this.mp.currentLatitude !=0 && this.mp.currentLongitude != 0">
+  <div *ngIf=" this.mp.gotPosition == true || this.showCoor == true; else noCoor;">
       Deine Koordinaten: {{ this.mp.currentLatitude }} Lat. {{ this.mp.currentLongitude }} Long.
   </div>
+  <ng-template #noCoor>
+    <h3>
+      Konnte keinen Standort finden!
+        Standort nochmal laden? 
+    </h3>    
+    <button ion-button (click)='this.mp.getPosition();'>Position bestimmen</button>
+    </ng-template>
   <button ion-button (click)='this.createPubs();'>Get Pubs</button>
   <button ion-button (click)='this.showLocation();'>Show Location</button>
 </ion-content>

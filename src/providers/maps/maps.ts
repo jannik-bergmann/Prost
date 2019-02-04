@@ -13,6 +13,7 @@ export class MapsProvider {
   currentLatitude: number=0;
   currentLongitude: number=0;
   gotPosition: boolean =false;
+  
   constructor(public http: HttpClient, private geolocation: Geolocation) {
   }
 

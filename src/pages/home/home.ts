@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { MapPage } from '../map/map';
+//import { MapPage } from '../map/map';
+import { RoutesCreatePage } from '../routes-create/routes-create';
 
 @Component({
   selector: 'page-home',
@@ -13,7 +14,7 @@ export class HomePage {
   }
 
   openMapPage(){
-    this.navCtrl.push(MapPage);
+    this.navCtrl.push(RoutesCreatePage);
   }
 
 }

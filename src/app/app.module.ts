@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { MapPage } from '../pages/map/map';
 import { MapviewPage } from '../pages/mapview/mapview';
 
@@ -13,14 +12,24 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapsProvider } from '../providers/maps/maps';
 import { Geolocation } from '@ionic-native/geolocation';
+import { OptionsPage } from '../pages/options/options';
+import { RoutesPage } from '../pages/routes/routes';
+import { RoutesCreatePage } from '../pages/routes-create/routes-create';
+import { RoutesProvider } from '../providers/routes/routes';
+import { CallbackPipe } from './pipes/callback.pipe';
+import { RoutesInspectPage } from '../pages/routes-inspect/routes-inspect';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     MapPage,
-    MapviewPage
+    MapviewPage,
+    OptionsPage,
+    RoutesPage,
+    RoutesCreatePage,
+    RoutesInspectPage,
+    CallbackPipe
   ],
   imports: [
     BrowserModule,
@@ -32,9 +41,12 @@ import { Geolocation } from '@ionic-native/geolocation';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     MapPage,
-    MapviewPage
+    MapviewPage,
+    OptionsPage,
+    RoutesPage,
+    RoutesCreatePage,
+    RoutesInspectPage
   ],
   providers: [
     StatusBar,
@@ -42,7 +54,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     MapsProvider,
     HttpClientModule,
-    Geolocation
+    Geolocation,
+    RoutesProvider
   ]
 })
 export class AppModule {}

@@ -1,0 +1,68 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Route Erstellen</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div *ngIf=' this.gotData == true; else noData'>
+
+    <div *ngIf=' this.selectPubsStage == true;'>
+      <h5>
+        Wähle die Kneipen, die in der Tour enthalten sein sollen:
+      </h5>
+      <ion-list>
+        <ion-item>
+          <button ion-button (click)='this.selectAll();'>Alle markieren</button>
+          <button ion-button (click)='this.unselectAll();;'>Alle unmarkieren</button>
+        </ion-item>
+        <ion-item *ngFor='let pub of this.pubs'>
+          <ion-label>{{ pub.name }}</ion-label>
+          <ion-checkbox slot="end" [(ngModel)]="pub.marked"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+          <button ion-button (click)='this.selectPubsStage = false; this.selectOrderStage = true; this.createSelectedPubs();'>Weiter</button>Debug:
+          <button ion-button (click)='this.printGeoJSON();'>ConsoleLog(osmGeoJson);</button>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div *ngIf=' this.selectOrderStage == true;'>
+      <h5>
+        Wähle die Reihenfolge:
+      </h5>
+      <ion-list reorder="true" (ionItemReorder)="reorderItems($event)" side="start" disabled="false">
+        <ion-item *ngFor='let pub of this.selectedPubs'>
+          <ion-label>{{ pub.name }}</ion-label>
+          <ion-reorder></ion-reorder>
+        </ion-item>
+      </ion-list>
+      <button ion-button (click)='this.selectOrderStage = false; this.selectPubsStage = true;'>Zurück</button>
+      <button ion-button (click)='this.selectOrderStage = false; this.selectNameStage = true;'>Weiter</button>
+    </div>
+
+    <div *ngIf=' this.selectNameStage == true;'>
+      <h5>
+        Wähle jetzt noch einen Namen für diese Tour:
+      </h5>
+      <ion-input placeholder="Name" [(ngModel)]="this.tmpName"></ion-input>
+      <button ion-button (click)='this.selectNameStage = false; this.selectOrderStage = true;'>Zurück</button>
+      <button ion-button (click)='this.addRoute();'>Fertig</button>
+    </div>
+
+
+  </div>
+
+  <ng-template #noData>
+    Keine Daten erhalten ):
+    Daten erneut anfordern?
+    <button ion-button (click)='this.ionViewDidLoad();'>Daten Laden</button>
+  </ng-template>
+
+
+</ion-content>

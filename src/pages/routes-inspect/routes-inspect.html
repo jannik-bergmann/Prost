@@ -1,0 +1,57 @@
+<!--
+  Generated template for the RoutesInspectPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{this.rp.routes[passedIndex].name}}</ion-title>
+    <ion-buttons end>
+      <div *ngIf="!this.edit">
+        <button ion-button icon-only (click)="this.edit = true;">
+          <ion-icon name="create"></ion-icon>
+        </button>
+      </div>
+      <div *ngIf="this.edit">
+        <button ion-button icon-only (click)="this.edit = false;">
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+      </div>
+    </ion-buttons>
+  </ion-navbar>
+
+
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div *ngIf="!this.edit">
+    <ion-list>
+      <ion-item *ngFor='let pub of this.rp.routes[passedIndex].selectedPubs; let i = index;'>
+        {{ i+1 }}. {{ pub.name }}
+      </ion-item>
+    </ion-list>
+    <button ion-button (click)='this.showRouteOnMap();'>Kartenansicht</button>
+  </div>
+
+  <div *ngIf="this.edit">
+    
+    <h5>Tourname:</h5>  
+    <ion-input placeholder="this.rp.routes[passedIndex].name" [(ngModel)]="this.rp.routes[passedIndex].name"></ion-input>
+    
+    <h5>Reihenfolge:</h5>  
+    <ion-list reorder="true" (ionItemReorder)="reorderItems($event)" side="start" disabled="false">
+          <ion-item *ngFor='let pub of this.rp.routes[this.passedIndex].selectedPubs'>
+            <ion-label>{{ pub.name }}</ion-label>
+            <ion-reorder></ion-reorder>
+          </ion-item>
+        </ion-list>
+  </div>
+</ion-content>

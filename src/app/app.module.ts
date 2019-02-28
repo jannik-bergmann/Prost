@@ -7,7 +7,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { MapPage } from '../pages/map/map';
 import { MapviewPage } from '../pages/mapview/mapview';
-
+import { ViewPubPage } from '../pages/view-pub/view-pub';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MapsProvider } from '../providers/maps/maps';
@@ -29,7 +29,8 @@ import { RoutesInspectPage } from '../pages/routes-inspect/routes-inspect';
     RoutesPage,
     RoutesCreatePage,
     RoutesInspectPage,
-    CallbackPipe
+    CallbackPipe,
+    ViewPubPage
   ],
   imports: [
     BrowserModule,
@@ -46,7 +47,8 @@ import { RoutesInspectPage } from '../pages/routes-inspect/routes-inspect';
     OptionsPage,
     RoutesPage,
     RoutesCreatePage,
-    RoutesInspectPage
+    RoutesInspectPage,
+    ViewPubPage
   ],
   providers: [
     StatusBar,

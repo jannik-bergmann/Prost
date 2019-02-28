@@ -21,7 +21,6 @@ export class MapPage {
   }
 
   ionViewDidLoad() {
-    //this.mp.getPosition();
     this.mp.getLocation().then((resp) => {
       this.mp.currentLatitude = resp.coords.latitude;
       this.mp.currentLongitude = resp.coords.longitude;
@@ -80,12 +79,13 @@ export class MapPage {
   }
 
   extractPubs() {
+    console.log(this.mapData.elements);
     if (this.pubs.length != 0) this.pubs = [];
     if (this.mapData.elements != undefined) {
       for (let i = 0; i < this.mapData.elements.length; i++) {
 
         if (typeof(this.mapData.elements[i].tags) !== 'undefined' && typeof(this.mapData.elements[i].tags.name) !== 'undefined') {
-          let tmp = new Pub(this.mapData.elements[i].tags.name, '');
+          let tmp = new Pub(this.mapData.elements[i].tags.name, '', this.mapData.elements[i].lat , this.mapData.elements[i].lon);
           this.pubs.push(tmp);
         }
         

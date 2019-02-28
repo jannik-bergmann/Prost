@@ -13,12 +13,12 @@
     <ion-title>{{this.rp.routes[passedIndex].name}}</ion-title>
     <ion-buttons end>
       <div *ngIf="!this.edit">
-        <button ion-button icon-only (click)="this.edit = true;">
+        <button ion-button icon-only (click)="this.enableEdit();">
           <ion-icon name="create"></ion-icon>
         </button>
       </div>
       <div *ngIf="this.edit">
-        <button ion-button icon-only (click)="this.edit = false;">
+        <button ion-button icon-only (click)="this.disableEdit();">
           <ion-icon name="checkmark"></ion-icon>
         </button>
       </div>
@@ -38,20 +38,24 @@
         {{ i+1 }}. {{ pub.name }}
       </ion-item>
     </ion-list>
-    <button ion-button (click)='this.showRouteOnMap();'>Kartenansicht</button>
+
   </div>
 
   <div *ngIf="this.edit">
-    
-    <h5>Tourname:</h5>  
+
+    <h5>Tourname:</h5>
     <ion-input placeholder="this.rp.routes[passedIndex].name" [(ngModel)]="this.rp.routes[passedIndex].name"></ion-input>
-    
-    <h5>Reihenfolge:</h5>  
+
+    <h5>Reihenfolge:</h5>
     <ion-list reorder="true" (ionItemReorder)="reorderItems($event)" side="start" disabled="false">
-          <ion-item *ngFor='let pub of this.rp.routes[this.passedIndex].selectedPubs'>
-            <ion-label>{{ pub.name }}</ion-label>
-            <ion-reorder></ion-reorder>
-          </ion-item>
-        </ion-list>
+      <ion-item *ngFor='let pub of this.rp.routes[this.passedIndex].selectedPubs'>
+        <ion-label>{{ pub.name }}</ion-label>
+        <ion-reorder></ion-reorder>
+      </ion-item>
+    </ion-list>
   </div>
+  
+  <div id="map" style="width:100%; height:300px;"></div>
+  <button ion-button (click)='this.showRouteOnMap();'>Große Kartenansicht</button>
+
 </ion-content>

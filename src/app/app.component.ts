@@ -26,8 +26,8 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage, icon: '' },
       { title: 'Meine Touren', component: RoutesPage, icon: '' },
-      { title: 'Kneipen finden', component: MapPage, icon: '' },
-      { title: 'Einstellungen', component: OptionsPage, icon: '' }
+      { title: 'Einstellungen', component: OptionsPage, icon: '' },
+      { title: 'About', component: MapPage, icon: '' }
     ];
 
   }

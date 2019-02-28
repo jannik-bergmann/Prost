@@ -23,6 +23,9 @@
 
 
 <ion-content padding>
+  <div *ngIf='this.rp.routes.length == 0'> 
+    <h5>Noch keine Touren vorhanden! Erstelle eine indem du auf das Plus oben rechts drückst. (:</h5>
+  </div>
   <ion-item *ngFor='let route of this.rp.routes; let i = index'>
     {{ route.name }}
     <ion-buttons end>

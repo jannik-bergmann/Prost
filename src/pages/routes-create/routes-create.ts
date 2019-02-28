@@ -5,6 +5,7 @@ import { MapsProvider } from '../../providers/maps/maps';
 import { Pub } from '../../app/models/pub';
 import { Route } from '../../app/models/route';
 import { MapviewPage } from '../mapview/mapview';
+import { ViewPubPage } from '../view-pub/view-pub';
 
 declare var require: any;
 
@@ -19,8 +20,9 @@ export class RoutesCreatePage {
   pubs: Pub[] = [];
   selectedPubs: Pub[] = [];
 
-  tmpName: string;
+  tmpName: string ='';
   gotData: boolean = false;
+  minSelected: boolean = false;
   selectPubsStage: boolean = true;
   selectOrderStage: boolean = false;
   selectNamesStage: boolean = false;
@@ -59,14 +61,15 @@ export class RoutesCreatePage {
   }
 
   extractPubs() {
+    console.log('lat: ' +this.osmGeoJSON.features[0].geometry[0]);
     if (this.pubs.length != 0) this.pubs = [];
     for (let i = 0; i < this.osmGeoJSON.features.length; i++) {
       if (typeof (this.osmGeoJSON.features[i].properties.name) !== 'undefined') {
-        let tmp = new Pub(this.osmGeoJSON.features[i].properties.name, this.osmGeoJSON.features[i].id);
+        let tmp = new Pub(this.osmGeoJSON.features[i].properties.name, this.osmGeoJSON.features[i].id, this.osmGeoJSON.features[i].geometry.coordinates[1], this.osmGeoJSON.features[i].geometry.coordinates[0]);
         this.pubs.push(tmp);
       }
     }
-    console.log('extracted Pubs!');
+    console.log('extracted Pubs in routes-create!');
     this.gotData = true;
   }
 
@@ -74,8 +77,10 @@ export class RoutesCreatePage {
     if (this.selectedPubs.length != 0) {
       this.selectedPubs = [];
     }
+
     for (let i = 0; i < this.pubs.length; i++) {
       if (this.pubs[i].marked) {
+        if(this.minSelected == false){ this.minSelected = true;}
         this.selectedPubs.push(this.pubs[i]);
       }
     }
@@ -111,7 +116,6 @@ export class RoutesCreatePage {
         }
       }
     }
-
     route.geoJSON = tmpGeoJSON;
     route.pubs = this.pubs;
     route.selectedPubs = this.selectedPubs;
@@ -119,8 +123,15 @@ export class RoutesCreatePage {
     this.navCtrl.pop();
   }
 
+
   printGeoJSON() {
     console.log(this.osmGeoJSON);
+  }
+
+  showMap(){
+    var tmp = new Route('geo');
+    tmp.geoJSON = this.osmGeoJSON;
+    this.navCtrl.push(MapviewPage, {route: tmp});
   }
 
 

@@ -8,6 +8,8 @@ export class Route {
     geoJSON: any;
     pubs: Pub[];
     selectedPubs: Pub[];
+    latitude: number;
+    longitude: number;
 
     constructor(name: string){
         this.name=name;

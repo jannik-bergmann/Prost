@@ -9,12 +9,12 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Kneipen in deiner Umgebung</ion-title>
+    <ion-title>About</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
+<!--  For debug Purposes only!
 <ion-content padding>
   <div *ngIf=" gotPubs == false; else kneipenAnzeigen;">
     <h1>Noch keine Kneipen in deiner Umgebung gefunden!</h1>
@@ -27,7 +27,7 @@
       <h1>Kneipen werden geladen!</h1>
     </div>
     <ion-list *ngFor="let pub of pubs; let i = index">
-      {{ i+1 }}. {{ pub.name }}
+      {{ i+1 }}. {{ pub.name }} Lat: {{ pub.latitude }} Long: {{ pub.longitude }}
     </ion-list>
   </ng-template>
   <div *ngIf=" this.mp.gotPosition == true || this.showCoor == true; else noCoor;">
@@ -42,4 +42,10 @@
     </ng-template>
   <button ion-button (click)='this.createPubs();'>Get Pubs</button>
   <button ion-button (click)='this.showLocation();'>Show Location</button>
+</ion-content>
+-->
+
+<ion-content padding>
+  Diese App wurde von Janik Bergmann und Alex Köster programmiert.
+  (c) 2019
 </ion-content>

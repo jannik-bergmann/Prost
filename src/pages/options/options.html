@@ -17,11 +17,8 @@
 
 
 <ion-content padding>
-  <h5>Radius:</h5>
+  <h5>Alle Routen löschen:</h5>
   <ion-item>
-      <ion-range min="0.01" max="0.1" color="secondary" step="0.001" [(ngModel)]="this.mp.radius">
-        <ion-label slot="start">0,01</ion-label>
-        <ion-label slot="end">1</ion-label>
-      </ion-range>
+    <button ion-button color="danger" (click)='this.deleteAllRoutes()'>Löschen</button>
     </ion-item>
 </ion-content>

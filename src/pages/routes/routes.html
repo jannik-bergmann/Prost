@@ -26,11 +26,13 @@
   <div *ngIf='this.rp.routes.length == 0'> 
     <h5>Noch keine Touren vorhanden! Erstelle eine indem du auf das Plus oben rechts drückst. (:</h5>
   </div>
-  <ion-item *ngFor='let route of this.rp.routes; let i = index'>
+  <ion-list *ngFor='let route of this.rp.routes; let i = index'>
+  <ion-item color="light" class="routes">
     {{ route.name }}
-    <ion-buttons end>
+    <ion-buttons start>
       <button ion-button right (click)='this.inspectRoute(i);'>Inspect</button>
       <button ion-button right (click)='this.deleteRoute(i);'>Löschen</button>
     </ion-buttons>
   </ion-item>
+</ion-list>
 </ion-content>

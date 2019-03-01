@@ -34,7 +34,6 @@ export class RoutesInspectPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RoutesInspectPage');
     this.rp.getLocalStorage();
     if (this.map != undefined) { this.map.remove(); }
     if (typeof (this.rp.routes[this.passedIndex].geoJSON) !== 'undefined') {
@@ -52,10 +51,15 @@ export class RoutesInspectPage {
   }
 
   disableEdit() {
-    this.edit = false;
-    this.rp.routes[this.passedIndex].selectedPubs = this.selectedRoutesEdit;
-    this.rp.setLocalStorage();
-    this.ionViewDidLoad();
+    if (this.rp.routes[this.passedIndex].name == '') {
+      alert('Du musst der Route einen Namen geben!');
+    }
+    else {
+      this.edit = false;
+      this.rp.routes[this.passedIndex].selectedPubs = this.selectedRoutesEdit;
+      this.rp.setLocalStorage();
+      this.ionViewDidLoad();
+    }
   }
 
   reorderItems(indexes: any): void {
@@ -69,18 +73,17 @@ export class RoutesInspectPage {
     }
   }
 
-  style(feature){
+  style(feature) {
     return { color: "orange" };
   }
 
-  pointToLayer(feature, latlng){
+  pointToLayer(feature, latlng) {
     return leaflet.circleMarker(latlng, {
       radius: 5,
     });
   }
 
   displayMap(passedGeoJSON: any) {
-    //Link für Nummern: https://dotscrapbook.wordpress.com/2014/11/28/simple-numbered-markers-with-leaflet-js/
     this.map = leaflet.map("map").fitWorld();
 
     leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -88,7 +91,7 @@ export class RoutesInspectPage {
       maxZoom: 18
     }).addTo(this.map);
 
-    leaflet.geoJSON(passedGeoJSON, { 
+    leaflet.geoJSON(passedGeoJSON, {
       style: this.style,
       onEachFeature: this.onEachFeature,
       pointToLayer: this.pointToLayer
@@ -98,19 +101,17 @@ export class RoutesInspectPage {
     let group = new leaflet.FeatureGroup();
     group.addLayer(layer);
     this.map.fitBounds(group.getBounds());
-    this.displayRoute();
+    if(typeof(this.rp.routes[this.passedIndex].selectedPubs)!=='undefined')
+      this.displayRoute();
   }
 
-  displayRoute(){
+  displayRoute() {
     var pointList = [];
-
-    for(let i=0; i<this.rp.routes[this.passedIndex].selectedPubs.length; i++){
+    for (let i = 0; i < this.rp.routes[this.passedIndex].selectedPubs.length; i++) {
       var lat = this.rp.routes[this.passedIndex].selectedPubs[i].latitude;
       var lon = this.rp.routes[this.passedIndex].selectedPubs[i].longitude;
       pointList.push([lat, lon]);
     }
-    
-
     var firstpolyline = new leaflet.polyline(pointList, {
       color: 'brown',
       weight: 3,
@@ -121,22 +122,22 @@ export class RoutesInspectPage {
     this.addStartEnd();
   }
 
-  addStartEnd(){
-    new leaflet.Marker([this.rp.routes[this.passedIndex].selectedPubs[0].latitude,this.rp.routes[this.passedIndex].selectedPubs[0].longitude], {
+  addStartEnd() {
+    new leaflet.Marker([this.rp.routes[this.passedIndex].selectedPubs[0].latitude, this.rp.routes[this.passedIndex].selectedPubs[0].longitude], {
       icon: new leaflet.divIcon({
         className: 'my-div-icon-start',
         html: ''
       })
     }).bindPopup(this.rp.routes[this.passedIndex].selectedPubs[0].name)
-    .addTo(this.map);
+      .addTo(this.map);
 
-    new leaflet.Marker([this.rp.routes[this.passedIndex].selectedPubs[this.rp.routes[this.passedIndex].selectedPubs.length-1].latitude,this.rp.routes[this.passedIndex].selectedPubs[this.rp.routes[this.passedIndex].selectedPubs.length-1].longitude], {
+    new leaflet.Marker([this.rp.routes[this.passedIndex].selectedPubs[this.rp.routes[this.passedIndex].selectedPubs.length - 1].latitude, this.rp.routes[this.passedIndex].selectedPubs[this.rp.routes[this.passedIndex].selectedPubs.length - 1].longitude], {
       icon: new leaflet.divIcon({
         className: 'my-div-icon-end',
         html: ''
       })
-    }).bindPopup(this.rp.routes[this.passedIndex].selectedPubs[this.rp.routes[this.passedIndex].selectedPubs.length-1].name)
-    .addTo(this.map);
+    }).bindPopup(this.rp.routes[this.passedIndex].selectedPubs[this.rp.routes[this.passedIndex].selectedPubs.length - 1].name)
+      .addTo(this.map);
   }
 
 }

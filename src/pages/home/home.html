@@ -8,16 +8,20 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Prost!</h3>
+  <h3>
+    Willkommen in der "Prost!"-App!
+    </h3>
   <ion-grid>
     <ion-row>
+      
       <ion-col>
-        Bars finden:
+          Drück einfach auf Prost und schon geht es los (:
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <button ion-button secondary (click)='openMapPage();'>Los!</button>
+        <br><br>
+        <button ion-button secondary slot='mid' (click)='openMapPage();'>Prost!</button>
       </ion-col>
     </ion-row>
   </ion-grid>

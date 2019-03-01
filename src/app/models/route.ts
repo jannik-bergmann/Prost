@@ -2,7 +2,6 @@ import { Pub } from "./pub";
 
 export class Route {
 
-    
     id: number;
     name: string;
     geoJSON: any;

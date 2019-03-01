@@ -16,17 +16,14 @@ export class RoutesProvider {
     this.routes.push(route);
     this.setLocalStorage();
   }
-  
   getLocalStorage() {
     if (localStorage.getItem("routes") != null) {
       this.routes = JSON.parse(localStorage.getItem("routes"));
     }
   }
-
   setLocalStorage() {
     localStorage.setItem("routes", JSON.stringify(this.routes));
   }
-
   clearLocalStorage() {
     localStorage.clear();
   }

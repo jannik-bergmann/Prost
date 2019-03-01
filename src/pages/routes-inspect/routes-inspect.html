@@ -44,7 +44,7 @@
   <div *ngIf="this.edit">
 
     <h5>Tourname:</h5>
-    <ion-input placeholder="this.rp.routes[passedIndex].name" [(ngModel)]="this.rp.routes[passedIndex].name"></ion-input>
+    <ion-input placeholder="Routenname" [(ngModel)]="this.rp.routes[passedIndex].name"></ion-input>
 
     <h5>Reihenfolge:</h5>
     <ion-list reorder="true" (ionItemReorder)="reorderItems($event)" side="start" disabled="false">

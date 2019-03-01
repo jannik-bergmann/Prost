@@ -23,29 +23,11 @@ export class ViewPubPage {
   }
 
   ionViewDidLoad() {
-    if(typeof(this.navParams.get('currentPub')) !== 'undefined' ){
-      this.pub = this.navParams.get('currentPub');
-      this.name = this.pub.name;
-      this.getInfo();
-
+    console.log('');
     }
     
   }
 
-  getInfo(){
-    console.log(this.pub.name);
-    this.mp.getPlaceData(this.pub.name)
-        .subscribe(data => {
-          this.placesJSON = data;
-        },
-        err => {
-          console.log(err);
-        },
-        () => {
-          console.log("Daten wurden von google erhalten!");
-          console.log( this.placesJSON );
-        }
-        );
-    }
+  
 
-}
+

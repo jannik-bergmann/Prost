@@ -30,10 +30,6 @@ export class RoutesCreatePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public rp: RoutesProvider, public mp: MapsProvider) {
   }
 
-  filterPubs(pub: Pub) {
-    return pub.marked;
-  }
-
   ionViewDidLoad() {
     console.log('ionViewDidLoad RoutesCreatePage');
     this.rp.getLocalStorage();
@@ -61,7 +57,6 @@ export class RoutesCreatePage {
   }
 
   extractPubs() {
-    console.log('lat: ' +this.osmGeoJSON.features[0].geometry[0]);
     if (this.pubs.length != 0) this.pubs = [];
     for (let i = 0; i < this.osmGeoJSON.features.length; i++) {
       if (typeof (this.osmGeoJSON.features[i].properties.name) !== 'undefined') {
@@ -69,7 +64,6 @@ export class RoutesCreatePage {
         this.pubs.push(tmp);
       }
     }
-    console.log('extracted Pubs in routes-create!');
     this.gotData = true;
   }
 
@@ -121,11 +115,6 @@ export class RoutesCreatePage {
     route.selectedPubs = this.selectedPubs;
     this.rp.addRoute(route);
     this.navCtrl.pop();
-  }
-
-
-  printGeoJSON() {
-    console.log(this.osmGeoJSON);
   }
 
   showMap(){

@@ -34,8 +34,8 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:   rgb(235, 126, 37),
-  secondary: rgb(233, 170, 34),
+  primary:  #FCB900,
+  secondary: rgb(255, 255, 255),
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222
@@ -53,7 +53,7 @@ $colors: (
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-$toolbar-background: rgb(235, 126, 37);
+$toolbar-background: #FCB900;
 $toolbar-md-title-text-color: rgb(0, 0, 0);
 $toolbar-ios-title-text-color: #777;
 $toolbar-wp-title-text-color: rgb(32, 32, 32);
